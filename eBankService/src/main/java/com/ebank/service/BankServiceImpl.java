@@ -80,7 +80,7 @@ public class BankServiceImpl implements BankService {
 	@Override
 	public List<TransactionHistory> getstatement(long userid) {
 		Pageable top10=PageRequest.of(0, 10);
-		List<TransactionHistory> stmt=  crepository.findstmtById(userid, top10);
+		List<TransactionHistory> stmt=  transrepo.findstmtById(userid, top10);
 		return stmt;
 	}
 	

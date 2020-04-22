@@ -17,7 +17,7 @@ public class TransactionHistory {
 	
 	private Double amount;
 	
-	private String desc;
+	private String remark;
 	
 	private long userid;
 	
@@ -45,15 +45,13 @@ public class TransactionHistory {
 		this.amount = amount;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
-
-	
 
 	public long getUserid() {
 		return userid;
