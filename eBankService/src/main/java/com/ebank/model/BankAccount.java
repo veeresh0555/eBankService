@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="bankaccount")
 public class BankAccount {
@@ -24,6 +26,7 @@ public class BankAccount {
 	
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "cid")
+	@JsonIgnore
 	private Customer customer;
 	
 	private Double balance;

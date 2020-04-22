@@ -13,10 +13,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name="customer")
+//@JsonIgnoreProperties({"hibernateLazyInitializer","bankaccount"})
 public class Customer {
 
 	@Id
@@ -33,7 +32,6 @@ public class Customer {
 	private String mobileno;
 	
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	@JsonIgnore
 	private List<BankAccount> bankaccount;
 
 	public long getCid() {
