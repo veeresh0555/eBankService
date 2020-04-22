@@ -57,23 +57,35 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public TransactionHistory makepayment(TransactionHistory transhistory) throws Exception {
-		Optional<Customer> checkcustById=crepository.findById(transhistory.getUserid());
+	public TransactionHistory makepayment(long cid,Double amount) throws Exception {
+
+		System.out.println("Enter BankServiceImpl->makePament method: ");
+		System.out.println("Customer id: "+cid+"\t amount: "+amount);
+		TransactionHistory transhistory=new TransactionHistory();
+		Optional<Customer> checkcustById=crepository.findById(cid);
 		BankAccount baccount=new BankAccount();
 		if(checkcustById.isPresent()) {
 			Customer cprasent=checkcustById.get();
 			List<BankAccount> bankacc=cprasent.getBankaccount();
-			bankacc.stream().forEach(blst->baccount.setBalance(blst.getBalance()));
-			if(baccount.getBalance() <= transhistory.getAmount()) {
-				bankacc.stream().forEach(updatelist->baccount.setBalance(updatelist.getBalance()-transhistory.getAmount()));
+			//bankacc.stream().forEach(blst->baccount.setBalance(blst.getBalance()));
+			System.out.println("condition: "+(baccount.getBalance() >= amount));
+			
+			if(baccount.getBalance() >= amount) {
+				System.out.println("");
+				bankacc.stream().forEach(updatelist->baccount.setBalance((updatelist.getBalance())-(amount)));
+				bankacc.stream().forEach(updatecardno->baccount.setCardnumber(updatecardno.getCardnumber()));
 				cprasent.setBankaccount(bankacc);
+				bankacc.forEach(lst->System.out.println("Balance: "+lst.getBalance()+"\t card Number "+lst.getCardnumber()));
 				crepository.save(cprasent);
+				transhistory.setUserid(cprasent.getCid());
+				transhistory.setCardno(baccount.getCardnumber());
+				transhistory.setAmount(amount);
 				return transrepo.save(transhistory);
 			}else {
 				throw new RecordsNotFoundException("Insufficient balance");
 			}
 		}else {
-			throw new RecordsNotFoundException("Insufficient balance");
+			throw new RecordsNotFoundException("Customer Not available");
 		}
 	}
 

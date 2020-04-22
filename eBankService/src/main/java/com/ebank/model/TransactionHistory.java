@@ -5,29 +5,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="transhistory")
 public class TransactionHistory {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long transid;
-	
-	private Double amount;
-	
-	private String remark;
-	
 	private long userid;
-	
+	private Double amount;
 	private String cardno;
 	
-	private String cvv;
-	
-	private String expdate;
-	
-	private String accountno;
+	@CreationTimestamp
+	private java.sql.Timestamp transdate;
 
 	public long getTransid() {
 		return transid;
@@ -35,22 +27,6 @@ public class TransactionHistory {
 
 	public void setTransid(long transid) {
 		this.transid = transid;
-	}
-
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 
 	public long getUserid() {
@@ -61,6 +37,16 @@ public class TransactionHistory {
 		this.userid = userid;
 	}
 
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	
+
 	public String getCardno() {
 		return cardno;
 	}
@@ -69,31 +55,16 @@ public class TransactionHistory {
 		this.cardno = cardno;
 	}
 
-	public String getCvv() {
-		return cvv;
+	public java.sql.Timestamp getTransdate() {
+		return transdate;
 	}
 
-	public void setCvv(String cvv) {
-		this.cvv = cvv;
+	public void setTransdate(java.sql.Timestamp transdate) {
+		this.transdate = transdate;
 	}
 
-	public String getExpdate() {
-		return expdate;
-	}
-
-	public void setExpdate(String expdate) {
-		this.expdate = expdate;
-	}
-
-	public String getAccountno() {
-		return accountno;
-	}
-
-	public void setAccountno(String accountno) {
-		this.accountno = accountno;
-	}
 	
-	
+
 	
 	
 }

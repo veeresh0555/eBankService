@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,10 +40,12 @@ public class BankController {
 		Customer updatecust= bservice.saveOrUpdateCustomer(customer);
 		return new ResponseEntity<>(updatecust,new HttpHeaders(), HttpStatus.OK);
 	}
-	@PostMapping("/payment")
-	public ResponseEntity<TransactionHistory> paymentofOrder(@RequestBody TransactionHistory transhistory) throws Exception{
-		TransactionHistory transdata=bservice.makepayment(transhistory);
-		return new ResponseEntity<>(transdata,new HttpHeaders(), HttpStatus.OK);
+	@PostMapping("/payment") //@RequestParam("amount")
+	public ResponseEntity<TransactionHistory> paymentofOrder(@RequestParam("cid") long cid,@RequestParam("amount") Double amount) throws Exception{
+		//public ResponseEntity<TransactionHistory> paymentofOrder(@RequestBody TransactionHistory transhistory) throws Exception{
+		System.out.println("CID: "+cid+"\t amount: "+amount);
+		TransactionHistory transdata=bservice.makepayment(cid,amount);
+		return new ResponseEntity<TransactionHistory>(transdata,new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/lateststmt")
