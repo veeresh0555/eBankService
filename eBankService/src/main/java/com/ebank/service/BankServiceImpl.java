@@ -2,6 +2,7 @@ package com.ebank.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -66,25 +67,23 @@ public class BankServiceImpl implements BankService {
 		BankAccount baccount=new BankAccount();
 		if(checkcustById.isPresent()) {
 			Customer cprasent=checkcustById.get();
-			List<BankAccount> bankacc=cprasent.getBankaccount();
-			//bankacc.stream().forEach(blst->baccount.setBalance(blst.getBalance()));
-			System.out.println("condition: "+(baccount.getBalance() >= amount));
-			
-			if(baccount.getBalance() >= amount) {
-				System.out.println("");
-				bankacc.stream().forEach(updatelist->baccount.setBalance((updatelist.getBalance())-(amount)));
-				bankacc.stream().forEach(updatecardno->baccount.setCardnumber(updatecardno.getCardnumber()));
-				cprasent.setBankaccount(bankacc);
-				bankacc.forEach(lst->System.out.println("Balance: "+lst.getBalance()+"\t card Number "+lst.getCardnumber()));
-				crepository.save(cprasent);
+			List<BankAccount> acn=cprasent.getBankaccount();
+			acn.stream().forEach(strcaard->baccount.setAcno(strcaard.getAcno()));
+			acn.stream().forEach(strcaard->baccount.setBalance(strcaard.getBalance()-amount));
+			Optional<BankAccount> findaccount=brepository.findById(baccount.getAcno());
+			if(findaccount.isPresent()) {
+				System.out.println("Account Number prasent block ====>");
+				BankAccount updatebal=findaccount.get();
+				updatebal.setBalance(baccount.getBalance());
+				brepository.save(updatebal);
 				transhistory.setUserid(cprasent.getCid());
-				transhistory.setCardno(baccount.getCardnumber());
+				transhistory.setCardno(updatebal.getCardnumber());
 				transhistory.setAmount(amount);
 				return transrepo.save(transhistory);
 			}else {
-				throw new RecordsNotFoundException("Insufficient balance");
+				throw new RecordsNotFoundException("Customer Id Not mapped with bank account");
 			}
-		}else {
+			}else {
 			throw new RecordsNotFoundException("Customer Not available");
 		}
 	}
@@ -96,5 +95,16 @@ public class BankServiceImpl implements BankService {
 		return stmt;
 	}
 	
+	
+	public static long generatecardcountNumber() {//int length
+	    Random random = new Random();
+	    char[] digits = new char[12];
+	    digits[0] = (char) (random.nextInt(9) + '1');
+	    for (int i = 1; i < 12; i++) {
+	        digits[i] = (char) (random.nextInt(10) + '0');
+	    }
+	    System.out.println("Digits: "+Long.parseLong(new String(digits)));
+	    return Long.parseLong(new String(digits));
+	}
 	
 }
