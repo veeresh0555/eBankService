@@ -41,15 +41,11 @@ public class BankServiceImpl implements BankService {
 			updatecust.setCname(customer.getCname());
 			updatecust.setMobileno(customer.getMobileno());
 			List<BankAccount> baccounts=updatecust.getBankaccount();
-			
-			
 			baccounts.stream().forEach(uacb->uacb.setBalance(10000.00));
-			
 			baccounts.stream().forEach(debitcard->debitcard.setCardnumber(generatecardcountNumber(16)));
 			baccounts.stream().forEach(cvv->cvv.setCvv(generatecardcountNumber(3)));
 			baccounts.stream().forEach(expdate->expdate.setExpdate(_expdate));
 			baccounts.stream().forEach(baccount->baccount.setCustomer(updatecust));
-			
 			baccounts.forEach(System.out::println);
 			updatecust.setBankaccount(baccounts);
 			return crepository.save(updatecust);
