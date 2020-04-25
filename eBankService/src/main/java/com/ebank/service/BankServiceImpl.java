@@ -41,8 +41,15 @@ public class BankServiceImpl implements BankService {
 			updatecust.setCname(customer.getCname());
 			updatecust.setMobileno(customer.getMobileno());
 			List<BankAccount> baccounts=updatecust.getBankaccount();
+			
+			
 			baccounts.stream().forEach(uacb->uacb.setBalance(10000.00));
+			
+			baccounts.stream().forEach(debitcard->debitcard.setCardnumber(generatecardcountNumber(16)));
+			baccounts.stream().forEach(cvv->cvv.setCvv(generatecardcountNumber(3)));
+			baccounts.stream().forEach(expdate->expdate.setExpdate(_expdate));
 			baccounts.stream().forEach(baccount->baccount.setCustomer(updatecust));
+			
 			baccounts.forEach(System.out::println);
 			updatecust.setBankaccount(baccounts);
 			return crepository.save(updatecust);
@@ -50,6 +57,9 @@ public class BankServiceImpl implements BankService {
 			System.out.println("This is Else block");
 			List<BankAccount> cbaccount=customer.getBankaccount();
 			cbaccount.stream().forEach(acb->acb.setBalance(10000.00));
+			cbaccount.stream().forEach(debitcard->debitcard.setCardnumber(generatecardcountNumber(16)));
+			cbaccount.stream().forEach(cvv->cvv.setCvv(generatecardcountNumber(3)));
+			cbaccount.stream().forEach(expdate->expdate.setExpdate(_expdate));
 			cbaccount.stream().forEach(baccount->baccount.setCustomer(customer));
 			cbaccount.forEach(System.out::println);
 			customer.setBankaccount(cbaccount);
@@ -96,15 +106,16 @@ public class BankServiceImpl implements BankService {
 	}
 	
 	
-	public static long generatecardcountNumber() {//int length
+	public static String generatecardcountNumber(int length) {//int length
 	    Random random = new Random();
-	    char[] digits = new char[12];
+	    char[] digits = new char[length];
 	    digits[0] = (char) (random.nextInt(9) + '1');
-	    for (int i = 1; i < 12; i++) {
+	    for (int i = 1; i < length; i++) {
 	        digits[i] = (char) (random.nextInt(10) + '0');
 	    }
 	    System.out.println("Digits: "+Long.parseLong(new String(digits)));
-	    return Long.parseLong(new String(digits));
+	    return new String(digits);
 	}
 	
+	private final String _expdate="24-06-2026";
 }

@@ -1,7 +1,5 @@
 package com.ebank.model;
 
-import java.util.Random;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,8 +66,7 @@ public class BankAccount {
 	}
 
 	public void setCardnumber(String cardnumber) {
-		//this.cardnumber = cardnumber;
-		this.cardnumber = generatecardcountNumber(16);
+		this.cardnumber = cardnumber;
 	}
 
 	public String getCvv() {
@@ -77,8 +74,7 @@ public class BankAccount {
 	}
 
 	public void setCvv(String cvv) {
-		//this.cvv = cvv;
-		this.cvv = generatecardcountNumber(3);
+		this.cvv = cvv;
 	}
 
 	public String getExpdate() {
@@ -86,27 +82,11 @@ public class BankAccount {
 	}
 
 	public void setExpdate(String expdate) {
-		//this.expdate = expdate;
-		this.expdate = exdat;
+		this.expdate = expdate;
 	}
 
 
-	public static String generatecardcountNumber(int length) {//int length
-	    Random random = new Random();
-	    char[] digits = new char[length];
-	    digits[0] = (char) (random.nextInt(9) + '1');
-	    for (int i = 1; i < length; i++) {
-	        digits[i] = (char) (random.nextInt(10) + '0');
-	    }
-	    System.out.println("Digits: "+Long.parseLong(new String(digits)));
-	    return new String(digits);
-	}
 	
-	
-	
-	
-	
-	private final String exdat="02-02-2026";
 	
 	
 	
